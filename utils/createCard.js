@@ -64,8 +64,14 @@ async function createCard(chardata) {
   ctx.fillText(weapon.improvement, 465, 163);
   ctx.drawImage(mainImage, 250, 188);
   if (weapon.subStat) {
+    let statvalue = 0;
+    if (weapon.subStat.appendPropId === "FIGHT_PROP_ELEMENT_MASTERY") {
+      statvalue = weapon.subStat.statValue;
+    } else {
+      statvalue = weapon.subStat.statValue + "%";
+    }
     const subStats = await applyTextWithIcon(
-      weapon.subStat.statValue + "%",
+      statvalue,
       32,
       `${__dirname}/../assets/icon/${weapon.subStat.appendPropId.replace(
         "FIGHT_PROP_",

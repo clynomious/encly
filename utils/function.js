@@ -77,17 +77,17 @@ function getDmgBonus(data) {
       },
       {
         id: 'Elemental Mastery',
-        icon: 'MASTERY.png',
+        icon: 'ELEMENT_MASTERY.png',
         value: Number(data.FIGHT_PROP_ELEMENT_MASTERY.toFixed(0))
       },
       {
         id: 'Crit Rate',
-        icon: 'CRITICAL_HURT.png',
+        icon: 'CRITICAL.png',
         value: (data.FIGHT_PROP_CRITICAL * 100).toFixed(1) + '%'
       },
       {
         id: 'Crit DMG',
-        icon: 'CRITICAL.png',
+        icon: 'CRITICAL_HURT.png',
         value: (data.FIGHT_PROP_CRITICAL_HURT * 100).toFixed(1) + '%'
       }
     ];
