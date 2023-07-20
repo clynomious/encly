@@ -1,0 +1,1 @@
+module.exports.getCard = require('./src/getCard.js');
