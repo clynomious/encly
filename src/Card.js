@@ -1,14 +1,14 @@
-const Card = require('../utils/card.js')
+const createCard = require('../utils/createCard.js')
 const axios = require('axios');
 
-module.exports = class getCard {
+module.exports = class Card {
   async getCard(uid) {
     const { EnkaNetwork } = require("enkanetwork");
     const enka = new EnkaNetwork({ language: "EN" });
     const chardata = await enka.fetchUser(uid);
     let result = []
     for (let i = 0; i < chardata.characters.length; i++) {
-      const card = await Card(chardata.characters[i]);
+      const card = await createCard(chardata.characters[i]);
       // Prepare the data for imgbb API request
       const formData = new FormData();
       formData.append('image', card.toString('base64'));

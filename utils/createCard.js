@@ -10,7 +10,7 @@ const {
   talentColor,
 } = require("./function");
 
-async function Card(chardata) {
+async function createCard(chardata) {
   const splashData = await fetch(
     "https://raw.githubusercontent.com/Jelosus2/enkanetwork.js/master/src/utils/characters.json"
   );
@@ -20,16 +20,13 @@ async function Card(chardata) {
   const canvas = Canvas.createCanvas(1860, 997);
   const ctx = canvas.getContext("2d");
 
-  // Font setup
-  Canvas.registerFont("./assets/font/genshin.ttf", { family: "HYWenHei-85W" });
-
   // Draw background image
   const idchar = chardata.id;
   const splash = getSplash[idchar].gachaIcon;
-  const bg = `./assets/background/${chardata.element}.png`;
+  const bg = `${__dirname}/../assets/background/${chardata.element}.png`;
   const gacha = `https://enka.network/ui/${splash}.png`;
-  const mask = `./assets/background/MASK.png`;
-  const bgshadow = await Canvas.loadImage(`./assets/background/SHADOW.png`);
+  const mask = `${__dirname}/../assets/background/MASK.png`;
+  const bgshadow = await Canvas.loadImage(`${__dirname}/../assets/background/SHADOW.png`);
   await compositeImagesWithMask(idchar, bg, gacha, mask);
   const bgImage = await Canvas.loadImage(`${idchar}_bg.png`);
   ctx.drawImage(bgImage, 0, 0);
@@ -39,15 +36,15 @@ async function Card(chardata) {
 
   // Draw weapon
   const weapon = chardata.weapon;
-  const bgweapon = await Canvas.loadImage("./assets/bg-weapon.png");
+  const bgweapon = await Canvas.loadImage(`${__dirname}/../assets/bg-weapon.png`);
   const weaponIcon = await Canvas.loadImage(weapon.icon);
   const star = await Canvas.loadImage(
-    `./assets/stars/${weapon.rarity}_stars_light.png`
+    `${__dirname}/../assets/stars/${weapon.rarity}_stars_light.png`
   );
   const mainStats = await applyTextWithIcon(
     weapon.mainStat.statValue,
     32,
-    "./assets/icon/ATTACK.png",
+    `${__dirname}/../assets/icon/ATTACK.png`,
     40,
     "rgba(0, 0, 0, 0.5)",
     "white",
@@ -70,7 +67,7 @@ async function Card(chardata) {
     const subStats = await applyTextWithIcon(
       weapon.subStat.statValue + "%",
       32,
-      `./assets/icon/${weapon.subStat.appendPropId.replace(
+      `${__dirname}/../assets/icon/${weapon.subStat.appendPropId.replace(
         "FIGHT_PROP_",
         ""
       )}.png`,
@@ -84,7 +81,7 @@ async function Card(chardata) {
   }
 
   // Draw stats
-  const bgstats = await Canvas.loadImage("./assets/bg-stats.png");
+  const bgstats = await Canvas.loadImage(`${__dirname}/../assets/bg-stats.png`);
   ctx.drawImage(bgstats, 42, 327, 712, 628);
   const charStats = await genshinStats(chardata);
   let ynya = 0;
@@ -98,7 +95,7 @@ async function Card(chardata) {
   ctx.font = "32px HYWenHei 85W";
   ctx.fillStyle = "white";
   for (let i = 0; i < charStats.length; i++) {
-    const icon = await Canvas.loadImage(`./assets/icon/${charStats[i].icon}`);
+    const icon = await Canvas.loadImage(`${__dirname}/../assets/icon/${charStats[i].icon}`);
     ctx.drawImage(icon, 82, 400 + (i * ynya - 37), 40, 50);
     ctx.textAlign = "left";
     ctx.fillText(charStats[i].id, 135, 400 + i * ynya);
@@ -108,7 +105,7 @@ async function Card(chardata) {
 
   // Draw talent
   const tdata = chardata;
-  const talent = await Canvas.loadImage("./assets/bg-talent.png");
+  const talent = await Canvas.loadImage(`${__dirname}/../assets/bg-talent.png`);
   const talentIcons = [];
   const talentLevelImages = [];
 
@@ -137,7 +134,7 @@ async function Card(chardata) {
   // Draw Name
   const cname = chardata;
   const rarity = await Canvas.loadImage(
-    `./assets/stars/${cname.rarity}_stars_frame.png`
+    `${__dirname}/../assets/stars/${cname.rarity}_stars_frame.png`
   );
   const bglevel = await applyText(
     `Level ${cname.level}/90`,
@@ -149,14 +146,14 @@ async function Card(chardata) {
   const bgfriend = await applyTextWithIcon(
     cname.friendshipLevel,
     32,
-    "./assets/icon/FRIENDS.png",
+    `${__dirname}/../assets/icon/FRIENDS.png`,
     30,
     "rgba(0, 0, 0, 0.5)",
     "white",
     10
   );
   const bgfriendImage = await Canvas.loadImage(bgfriend);
-  const bgname = await Canvas.loadImage("./assets/bg-name.png");
+  const bgname = await Canvas.loadImage(`${__dirname}/../assets/bg-name.png`);
   const bglevelImage = await Canvas.loadImage(bglevel);
   ctx.drawImage(rarity, 1235, 815);
   ctx.drawImage(bgname, 1072, 847);
@@ -174,14 +171,14 @@ async function Card(chardata) {
     let consticon;
     if (constdata.constellation[i].unlocked === true) {
       constbg = await Canvas.loadImage(
-        `./assets/const/open/OPEN_CONST_${constdata.element}.png`
+        `${__dirname}/../assets/const/open/OPEN_CONST_${constdata.element}.png`
       );
       consticon = await Canvas.loadImage(constdata.constellation[i].icon);
     } else {
       constbg = await Canvas.loadImage(
-        `./assets/const/closed/CLOSE_CONST_${constdata.element}.png`
+        `${__dirname}/../assets/const/closed/CLOSE_CONST_${constdata.element}.png`
       );
-      consticon = await Canvas.loadImage(`./assets/const/closed/CLOSED.png`);
+      consticon = await Canvas.loadImage(`${__dirname}/../assets/const/closed/CLOSED.png`);
     }
     ctx.drawImage(constbg, 1705, 125 + i * 125, 112, 119);
     ctx.drawImage(consticon, 1726, 150 + i * 125, 70, 70);
@@ -190,4 +187,4 @@ async function Card(chardata) {
   return canvas.toBuffer();
 }
 
-module.exports = Card;
+module.exports = createCard;

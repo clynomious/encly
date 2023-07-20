@@ -122,12 +122,9 @@ function getDmgBonus(data) {
     return result;
   }
 
-  function applyText(text, fontSize, backgroundColor, textColor, radius) {
-    // Register the font to be used
-    registerFont("./assets/font/genshin.ttf", { family: "HYWenHei-85W" });
-  
+  function applyText(text, fontSize, backgroundColor, textColor, radius) {  
     // Create a canvas with dimensions based on the text length
-    const canvas = createCanvas(0, 0); // Initial size of 0x0 pixels
+    const canvas = createCanvas(0, 0);
     const ctx = canvas.getContext('2d');
   
     // Set text properties
@@ -137,7 +134,7 @@ function getDmgBonus(data) {
     const textMetrics = ctx.measureText(text);
   
     // Set canvas dimensions based on text length
-    const canvasWidth = textMetrics.width + 20; // Add 20 to provide space around the text
+    const canvasWidth = textMetrics.width + 20; 
     const canvasHeight = fontSize + 20;
   
     // Set canvas size
@@ -180,9 +177,6 @@ function getDmgBonus(data) {
   }
 
   async function applyTextWithIcon(text, fontSize, iconFile, iconSize, backgroundColor, textColor, radius) {
-    // Register the font to be used
-    registerFont("./assets/font/genshin.ttf", { family: "HYWenHei-85W" });
-  
     // Create a canvas with dimensions based on the text length
     const canvas = createCanvas(0, 0); 
     const ctx = canvas.getContext('2d');

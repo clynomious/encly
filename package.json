@@ -7,7 +7,7 @@
     "node-fetch": "^2.6.9"
   },
   "name": "encly",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Create Enka Network Card with Canvas",
   "main": "index.js",
   "devDependencies": {},
@@ -20,5 +20,13 @@
     "Card"
   ],
   "author": "Fajar",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FajarCly/encly.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FajarCly/encly/issues"
+  },
+  "homepage": "https://github.com/FajarCly/encly#readme"
 }
