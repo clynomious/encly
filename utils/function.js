@@ -29,7 +29,7 @@ function getDmgBonus(data) {
       } else if (data.FIGHT_PROP_WIND_ADD_HURT !== 0) {
         id = 'Anemo DMG Bonus',
         icon = 'ANEMO.png'
-        value = (data.FIGHT_PROP_WIND_ADD_HURT * 100).toFixed(1) = '%'
+        value = (data.FIGHT_PROP_WIND_ADD_HURT * 100).toFixed(1) + '%'
       } else if (data.FIGHT_PROP_ROCK_ADD_HURT !== 0) {
         id = 'Geo DMG Bonus',
         icon = 'GEO.png'
@@ -49,8 +49,8 @@ function getDmgBonus(data) {
   async function genshinStats(stat) {
     const data = stat.stats
     let idBonus = '';
-    let valueBonus = '';
     let iconBonus = '';
+    let valueBonus = '';
   
     const dmgBonus = getDmgBonus(data);
     if (dmgBonus) {

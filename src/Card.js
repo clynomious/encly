@@ -1,10 +1,10 @@
 const createCard = require('../utils/createCard.js')
 const axios = require('axios');
+const { EnkaNetwork } = require("enkanetwork");
+const enka = new EnkaNetwork({ language: "EN" });
 
 module.exports = class Card {
   async getCard(uid) {
-    const { EnkaNetwork } = require("enkanetwork");
-    const enka = new EnkaNetwork({ language: "EN" });
     const chardata = await enka.fetchUser(uid);
     let result = []
     for (let i = 0; i < chardata.characters.length; i++) {
