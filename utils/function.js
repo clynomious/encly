@@ -1,8 +1,17 @@
-const { createCanvas, registerFont, loadImage } = require('canvas');
+const { createCanvas, loadImage } = require('canvas');
 const Jimp = require('jimp');
 const fs = require('fs');
 
-function getDmgBonus(data) {
+  // Caching frequently used images
+  let cachedImages = {};
+  async function loadImageAsync(path) {
+    if (!cachedImages[path]) {
+      cachedImages[path] = await loadImage(path);
+    }
+    return cachedImages[path];
+  }
+
+  function getDmgBonus(data) {
     let id 
     let value
     let icon
@@ -242,8 +251,6 @@ function getDmgBonus(data) {
       const overlayImage = await Jimp.read(overlayImagePath);
       const maskImage = await Jimp.read(maskImagePath);
   
-      maskImage.resize(baseImage.getWidth(), baseImage.getHeight());
-  
       overlayImage.contain(baseImage.getWidth(), baseImage.getHeight());
   
       overlayImage.mask(maskImage, 0, 0);
@@ -273,12 +280,31 @@ function getDmgBonus(data) {
     }
   }
 
+  async function fetchSplashData() {
+    try {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/Jelosus2/enkanetwork.js/master/src/utils/characters.json"
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching splash data:', error.message);
+      throw error;
+    }
+  }
+
   
   module.exports = {
+    loadImageAsync,
     genshinStats,
     applyText,
     applyTextWithIcon,
     compositeImagesWithMask,
     truncateText,
-    talentColor
+    talentColor,
+    fetchSplashData
   }

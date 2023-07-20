@@ -1,32 +1,36 @@
 const Canvas = require("canvas");
-const fetch = require("node-fetch");
 const fs = require("fs");
 const {
+  loadImageAsync,
   genshinStats,
   applyText,
   applyTextWithIcon,
   compositeImagesWithMask,
   truncateText,
   talentColor,
+  fetchSplashData,
 } = require("./function");
 
 async function createCard(chardata) {
-  const splashData = await fetch(
-    "https://raw.githubusercontent.com/Jelosus2/enkanetwork.js/master/src/utils/characters.json"
-  );
-  const getSplash = await splashData.json();
-
   // Create a canvas
   const canvas = Canvas.createCanvas(1860, 997);
   const ctx = canvas.getContext("2d");
-
+  
+  // Load frequently used images
+  const [bgshadow, bgweapon, bgstats, bgname,] = await Promise.all([
+    loadImageAsync(`${__dirname}/../assets/background/SHADOW.png`),
+    loadImageAsync(`${__dirname}/../assets/bg-weapon.png`),
+    loadImageAsync(`${__dirname}/../assets/bg-stats.png`),
+    loadImageAsync(`${__dirname}/../assets/bg-name.png`),
+  ]);
+  
   // Draw background image
   const idchar = chardata.id;
+  const getSplash = await fetchSplashData();
   const splash = getSplash[idchar].gachaIcon;
   const bg = `${__dirname}/../assets/background/${chardata.element}.png`;
   const gacha = `https://enka.network/ui/${splash}.png`;
   const mask = `${__dirname}/../assets/background/MASK.png`;
-  const bgshadow = await Canvas.loadImage(`${__dirname}/../assets/background/SHADOW.png`);
   await compositeImagesWithMask(idchar, bg, gacha, mask);
   const bgImage = await Canvas.loadImage(`${idchar}_bg.png`);
   ctx.drawImage(bgImage, 0, 0);
@@ -36,7 +40,6 @@ async function createCard(chardata) {
 
   // Draw weapon
   const weapon = chardata.weapon;
-  const bgweapon = await Canvas.loadImage(`${__dirname}/../assets/bg-weapon.png`);
   const weaponIcon = await Canvas.loadImage(weapon.icon);
   const star = await Canvas.loadImage(
     `${__dirname}/../assets/stars/${weapon.rarity}_stars_light.png`
@@ -87,7 +90,6 @@ async function createCard(chardata) {
   }
 
   // Draw stats
-  const bgstats = await Canvas.loadImage(`${__dirname}/../assets/bg-stats.png`);
   ctx.drawImage(bgstats, 42, 327, 712, 628);
   const charStats = await genshinStats(chardata);
   let ynya = 0;
@@ -159,7 +161,6 @@ async function createCard(chardata) {
     10
   );
   const bgfriendImage = await Canvas.loadImage(bgfriend);
-  const bgname = await Canvas.loadImage(`${__dirname}/../assets/bg-name.png`);
   const bglevelImage = await Canvas.loadImage(bglevel);
   ctx.drawImage(rarity, 1235, 815);
   ctx.drawImage(bgname, 1072, 847);
