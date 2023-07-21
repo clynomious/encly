@@ -17,21 +17,18 @@ class Card {
 
           // Prepare the data for imgbb API request
           const formData = new FormData();
-          formData.append('image', card.toString('base64'));
+          formData.append('file', `${character.name}.jpg`, card);
 
           // Make a POST request to imgbb API
-          const imgbbResponse = await axios.post('https://api.imgbb.com/1/upload', formData, {
+          const imgbbResponse = await axios.post('https://telegra.ph/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
-            },
-            params: {
-              key: 'ea0f2bfaa7c07130266ca23b11e0dcf3'
             }
           });
 
           return {
             name: character.name,
-            url: imgbbResponse.data.data.url
+            url: 'https://telegra.ph' + imgbbResponse.data[0].src
           };
         })
       );
