@@ -18,7 +18,7 @@ class Card {
 
           // Prepare the data for imgbb API request
           const formData = new FormData();
-          formData.append('file', `${character.name}.jpg`, card);
+          formData.append('file', card, `${character.name}.jpg`);
 
           // Make a POST request to imgbb API
           const imgbbResponse = await axios.post('https://telegra.ph/upload', formData, {
