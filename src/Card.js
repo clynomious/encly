@@ -26,7 +26,6 @@ class Card {
               'Content-Type': 'multipart/form-data'
             }
           });
-          console.log(imgbbResponse.data)
 
           return {
             name: character.name,
@@ -40,7 +39,33 @@ class Card {
       console.error('Error while fetching character data:', error.message);
       return [];
     }
+  },
+
+  async getCardBuffer(uid) {
+    try {
+      // Fetch character data from the API
+      const chardata = await enka.fetchUser(uid);
+
+      // Process character data and upload images to imgbb
+      const result = await Promise.all(
+        chardata.characters.map(async (character) => {
+          const card = await createCard(character);
+
+          return {
+            name: character.name,
+            buffer: card
+          };
+        })
+      );
+
+      return result;
+    } catch (error) {
+      console.error('Error while fetching character data:', error.message);
+      return [];
+    }
   }
+
+  
 }
 
 module.exports = Card;
