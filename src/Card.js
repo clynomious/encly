@@ -26,6 +26,7 @@ class Card {
               'Content-Type': 'multipart/form-data'
             }
           });
+          console.log(imgbbResponse.data)
 
           return {
             name: character.name,
