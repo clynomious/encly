@@ -39,7 +39,7 @@ class Card {
       console.error('Error while fetching character data:', error.message);
       return [];
     }
-  },
+  }
 
   async getCardBuffer(uid) {
     try {
