@@ -3,6 +3,7 @@ const createCard = require('../utils/createCard.js');
 const axios = require('axios');
 const { EnkaNetwork } = require('enkanetwork');
 const enka = new EnkaNetwork({ language: 'EN' });
+var FormData = require('form-data');
 
 class Card {
   async getCard(uid) {
