@@ -8,10 +8,9 @@ const {
   compositeImagesWithMask,
   truncateText,
   talentColor,
-  fetchSplashData,
 } = require("./function");
 
-async function createCard(chardata) {
+async function createCard(chardata, splashart) {
   // Create a canvas
   const canvas = Canvas.createCanvas(1860, 997);
   const ctx = canvas.getContext("2d");
@@ -26,12 +25,9 @@ async function createCard(chardata) {
   
   // Draw background image
   const idchar = chardata.id;
-  const getSplash = await fetchSplashData();
-  const splash = getSplash[idchar].gachaIcon;
   const bg = `${__dirname}/../assets/background/${chardata.element}.png`;
-  const gacha = `https://enka.network/ui/${splash}.png`;
   const mask = `${__dirname}/../assets/background/MASK.png`;
-  await compositeImagesWithMask(idchar, bg, gacha, mask);
+  await compositeImagesWithMask(idchar, bg, splashart, mask);
   const bgImage = await Canvas.loadImage(`${idchar}_bg.png`);
   ctx.drawImage(bgImage, 0, 0);
   //delete bgImage

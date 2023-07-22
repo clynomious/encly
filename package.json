@@ -3,11 +3,12 @@
     "axios": "^1.4.0",
     "canvas": "^2.11.2",
     "enkanetwork": "^1.3.3",
+    "form-data": "^4.0.0",
     "jimp": "^0.22.8",
     "node-fetch": "^2.6.9"
   },
   "name": "encly",
-  "version": "1.0.5",
+  "version": "1.2.2",
   "description": "Create Enka Network Card with Canvas",
   "main": "index.js",
   "scripts": {
