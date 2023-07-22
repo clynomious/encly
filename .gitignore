@@ -2,4 +2,4 @@
 node_modules
 
 # lock files
-*-lock.json
+package-lock.json
