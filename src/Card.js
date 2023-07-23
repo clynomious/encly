@@ -8,7 +8,7 @@ const { fetchSplashData } = require('../utils/function.js');
 class Card {
   constructor() {
     this.character = 1;
-    this.splash = 'https://telegra.ph/file/5844684b7ce7e4cb0a8e3.jpg';
+    this.splash = null; //'https://telegra.ph/file/5844684b7ce7e4cb0a8e3.jpg'
   }
   
   setCharacter(value) {
