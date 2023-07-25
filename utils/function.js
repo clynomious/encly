@@ -137,7 +137,7 @@ const fs = require('fs');
     const ctx = canvas.getContext('2d');
   
     // Set text properties
-    ctx.font = `${fontSize}px 'HYWenHei 85W'`;
+    ctx.font = `${fontSize}px 'HYWenHei 85W'` || `${fontSize}px 'HYWenHei-85W'`
   
     // Measure the text width
     const textMetrics = ctx.measureText(text);
@@ -169,7 +169,7 @@ const fs = require('fs');
   
     // Set text properties
     ctx.fillStyle = textColor;
-    ctx.font = `${fontSize}px 'HYWenHei 85W'`;
+    ctx.font = `${fontSize}px 'HYWenHei 85W'` || `${fontSize}px 'HYWenHei-85W'`
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
@@ -191,7 +191,7 @@ const fs = require('fs');
     const ctx = canvas.getContext('2d');
   
     // Set text properties
-    ctx.font = `${fontSize}px 'HYWenHei 85W'`;
+    ctx.font = `${fontSize}px 'HYWenHei 85W'` || `${fontSize}px 'HYWenHei-85W'`
   
     // Measure the text width
     const textMetrics = ctx.measureText(text);
@@ -223,7 +223,7 @@ const fs = require('fs');
   
     // Set text properties
     ctx.fillStyle = textColor;
-    ctx.font = `${fontSize}px 'HYWenHei 85W'`;
+    ctx.font = `${fontSize}px 'HYWenHei 85W'` || `${fontSize}px 'HYWenHei-85W'`
     ctx.textBaseline = 'middle';
 
     // Add text shadow
@@ -341,7 +341,7 @@ const fs = require('fs');
   }
 
   function addPercentageIfPercentStat(statValue, appendPropId) {
-    const percentageIds = ["_PERCENT", "_CRITICAL", "_CRITICAL_HURT"]; // List of strings that indicate percentage stats
+    const percentageIds = ["_PERCENT", "_CRITICAL", "_CRITICAL_HURT", "_CHARGE_EFFICIENCY"]; // List of strings that indicate percentage stats
   
     const isPercentageStat = percentageIds.some(percentageId => appendPropId.includes(percentageId));
   
