@@ -1,27 +1,21 @@
 const Canvas = require("canvas");
 const fs = require("fs");
 const {
-  loadImageAsync,
   genshinStats,
   applyText,
   applyTextWithIcon,
   compositeImagesWithMask,
   truncateText,
   talentColor,
+  createRoundedRectangle,
+  artifactCard,
+  addPercentageIfPercentStat,
 } = require("./function");
 
 async function createCard(chardata, splashart) {
   // Create a canvas
-  const canvas = Canvas.createCanvas(1860, 997);
+  const canvas = Canvas.createCanvas(2605, 997);
   const ctx = canvas.getContext("2d");
-  
-  // Load frequently used images
-  const [bgshadow, bgweapon, bgstats, bgname,] = await Promise.all([
-    loadImageAsync(`${__dirname}/../assets/background/SHADOW.png`),
-    loadImageAsync(`${__dirname}/../assets/bg-weapon.png`),
-    loadImageAsync(`${__dirname}/../assets/bg-stats.png`),
-    loadImageAsync(`${__dirname}/../assets/bg-name.png`),
-  ]);
   
   // Draw background image
   const idchar = chardata.id;
@@ -29,6 +23,7 @@ async function createCard(chardata, splashart) {
   const mask = `${__dirname}/../assets/background/MASK.png`;
   await compositeImagesWithMask(idchar, bg, splashart, mask);
   const bgImage = await Canvas.loadImage(`${idchar}_bg.png`);
+  const bgshadow = await Canvas.loadImage(`${__dirname}/../assets/background/SHADOW.png`)
   ctx.drawImage(bgImage, 0, 0);
   //delete bgImage
   fs.unlinkSync(`${idchar}_bg.png`);
@@ -50,17 +45,18 @@ async function createCard(chardata, splashart) {
     10
   );
   const mainImage = await Canvas.loadImage(mainStats);
-  ctx.drawImage(bgweapon, 42, 42, 712, 261);
+  const bgweapon = await Canvas.loadImage(createRoundedRectangle(712, 261, 34, "rgba(0, 0, 0, 0.5)"))
+  ctx.drawImage(bgweapon, 42, 42);
   ctx.drawImage(weaponIcon, 55, 77, 191, 191);
   ctx.drawImage(star, 55, 256, 191, 23);
-  ctx.font = "36px 'HYWenHei-85W'";
+  ctx.font = "36px 'HYWenHei 85W'";
   ctx.fillStyle = "white";
   ctx.fillText(truncateText(weapon.name, 25), 250, 108);
-  ctx.font = "32px 'HYWenHei-85W'";
+  ctx.font = "32px 'HYWenHei 85W'";
   ctx.fillStyle = "white";
   ctx.fillText(`LVL ${weapon.level}/90`, 250, 162);
   ctx.fillStyle = "#ff8900";
-  ctx.fillText(weapon.improvement, 465, 163);
+  ctx.fillText('R' + weapon.improvement, 465, 163);
   ctx.drawImage(mainImage, 250, 188);
   if (weapon.subStat) {
     let statvalue = 0;
@@ -86,6 +82,7 @@ async function createCard(chardata, splashart) {
   }
 
   // Draw stats
+  const bgstats = await Canvas.loadImage(createRoundedRectangle(712, 628, 34, "rgba(0, 0, 0, 0.5)"))
   ctx.drawImage(bgstats, 42, 327, 712, 628);
   const charStats = await genshinStats(chardata);
   let ynya = 0;
@@ -96,7 +93,7 @@ async function createCard(chardata, splashart) {
   } else if (charStats.length === 7) {
     ynya = 83;
   }
-  ctx.font = "32px 'HYWenHei-85W'";
+  ctx.font = "32px 'HYWenHei 85W'";
   ctx.fillStyle = "white";
   for (let i = 0; i < charStats.length; i++) {
     const icon = await Canvas.loadImage(`${__dirname}/../assets/icon/${charStats[i].icon}`);
@@ -158,9 +155,10 @@ async function createCard(chardata, splashart) {
   );
   const bgfriendImage = await Canvas.loadImage(bgfriend);
   const bglevelImage = await Canvas.loadImage(bglevel);
+  const bgname = await Canvas.loadImage(createRoundedRectangle(461, 57, 10, "rgba(0, 0, 0, 0.5)"))
   ctx.drawImage(rarity, 1235, 815);
   ctx.drawImage(bgname, 1072, 847);
-  ctx.font = "36px 'HYWenHei-85W'";
+  ctx.font = "36px 'HYWenHei 85W'";
   ctx.fillStyle = "white";
   ctx.textAlign = "center";
   ctx.fillText(cname.name, 1302, 887);
@@ -183,8 +181,79 @@ async function createCard(chardata, splashart) {
       );
       consticon = await Canvas.loadImage(`${__dirname}/../assets/const/closed/CLOSED.png`);
     }
-    ctx.drawImage(constbg, 1705, 125 + i * 125, 112, 119);
-    ctx.drawImage(consticon, 1726, 150 + i * 125, 70, 70);
+    ctx.drawImage(constbg, 1715, 125 + i * 125, 112, 119);
+    ctx.drawImage(consticon, 1736, 150 + i * 125, 70, 70);
+  }
+
+  // Draw Artifact
+  async function drawArtifact(ctx, artdata, position) {
+    const articon = await artdata.icon;
+    await artifactCard(artdata.id, artbg, articon, maskarte);
+    const artefak = await Canvas.loadImage(`${artdata.id}_arte.png`);
+    const mainicon = await Canvas.loadImage(`${__dirname}/../assets/icon/${artdata.mainStats.mainPropId.replace("FIGHT_PROP_", "")}.png`);
+    const rarity = await Canvas.loadImage(`${__dirname}/../assets/stars/Star${artdata.rarity}.png`);
+  
+    const y = position * 186 + 42; // Vertical position based on the index
+  
+    ctx.drawImage(artefak, 1850, y);
+    fs.unlinkSync(`${artdata.id}_arte.png`);
+    ctx.drawImage(mainicon, 2032, y + 18, 40, 50);
+    ctx.textAlign = "right";
+    ctx.font = "48px 'HYWenHei 85W'";
+    ctx.fillStyle = "white";
+    let statvalue = 0;
+    const noPercent = ["FIGHT_PROP_ELEMENT_MASTERY", "FIGHT_PROP_HP", "FIGHT_PROP_ATTACK"]
+    const isNoPercent = noPercent.includes(artdata.mainStats.mainPropId)
+    if (isNoPercent) {
+      statvalue = artdata.mainStats.statValue;
+    } else {
+      statvalue = artdata.mainStats.statValue + "%";
+    }
+    ctx.fillText(statvalue, 2080, y + 118);
+    ctx.drawImage(rarity, 1870, y + 117, 170, 52);
+    ctx.font = "24px 'HYWenHei 85W'";
+    ctx.fillStyle = "white";
+    ctx.fillText('+' + artdata.level, 2080, y + 153);
+  
+    if (artdata.subStats) {
+      for (let i = 0; i < artdata.subStats.length; i++) {
+        const subicon = await Canvas.loadImage(`${__dirname}/../assets/icon/${artdata.subStats[i].appendPropId.replace("FIGHT_PROP_", "")}.png`);
+        const row = Math.floor(i / 2); // Calculate row based on current index
+        const col = i % 2; // Calculate column based on current index
+        const offsetX = 2130;
+        const offsetY = y + 26;
+        const spacingX = 170;
+        const spacingY = 70;
+        const iconWidth = 40;
+        const iconHeight = 50;
+        const posX = offsetX + col * (iconWidth + spacingX);
+        const posY = offsetY + row * spacingY;
+  
+        ctx.drawImage(subicon, posX, posY, iconWidth, iconHeight);
+        ctx.textAlign = "left";
+        ctx.font = "36px 'HYWenHei 85W'";
+        ctx.fillStyle = "white";
+        const statValue = artdata.subStats[i].statValue;
+        const appendPropId = artdata.subStats[i].appendPropId;
+        ctx.fillText("+" + addPercentageIfPercentStat(statValue, appendPropId), posX + 50, posY + 40);
+      }
+    }
+  }
+  
+  const artdata = chardata.reluquary;
+  const artbg = `${__dirname}/../assets/arte/bg-arte.png`;
+  const maskarte = `${__dirname}/../assets/arte/mask.png`;
+  
+  const artPositions = ["Flower", "Feather", "Sands", "Goblet", "Circlet"];
+  for (let i = 0; i < artPositions.length; i++) {
+    const artType = artPositions[i];
+    const artItem = artdata.find(item => item.type === artType);
+    if (artItem) {
+      await drawArtifact(ctx, artItem, i);
+    } else {
+      const notStats = await Canvas.loadImage(createRoundedRectangle(712, 170, 34, "rgba(0, 0, 0, 0.2)"))
+      ctx.drawImage(notStats, 1850, i * 186 + 42);
+    }
   }
 
   return canvas.toBuffer();

@@ -137,7 +137,7 @@ const fs = require('fs');
     const ctx = canvas.getContext('2d');
   
     // Set text properties
-    ctx.font = `${fontSize}px 'HYWenHei-85W'`;
+    ctx.font = `${fontSize}px 'HYWenHei 85W'`;
   
     // Measure the text width
     const textMetrics = ctx.measureText(text);
@@ -169,7 +169,7 @@ const fs = require('fs');
   
     // Set text properties
     ctx.fillStyle = textColor;
-    ctx.font = `${fontSize}px 'HYWenHei-85W'`;
+    ctx.font = `${fontSize}px 'HYWenHei 85W'`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
@@ -191,7 +191,7 @@ const fs = require('fs');
     const ctx = canvas.getContext('2d');
   
     // Set text properties
-    ctx.font = `${fontSize}px 'HYWenHei-85W'`;
+    ctx.font = `${fontSize}px 'HYWenHei 85W'`;
   
     // Measure the text width
     const textMetrics = ctx.measureText(text);
@@ -223,7 +223,7 @@ const fs = require('fs');
   
     // Set text properties
     ctx.fillStyle = textColor;
-    ctx.font = `${fontSize}px 'HYWenHei-85W'`;
+    ctx.font = `${fontSize}px 'HYWenHei 85W'`;
     ctx.textBaseline = 'middle';
 
     // Add text shadow
@@ -242,7 +242,7 @@ const fs = require('fs');
     const textX = iconX + iconSize + 10;
     ctx.fillText(text, textX, canvasHeight / 2);
   
-    return canvas.toDataURL();
+    return canvas.toBuffer();
   }
   
   async function compositeImagesWithMask(idchar, baseImagePath, overlayImagePath, maskImagePath) {
@@ -297,6 +297,60 @@ const fs = require('fs');
     }
   }
 
+  function createRoundedRectangle(width, height, cornerRadius, fillColor) {
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext('2d');
+  
+    ctx.beginPath();
+    ctx.moveTo(cornerRadius, 0);
+    ctx.lineTo(width - cornerRadius, 0);
+    ctx.quadraticCurveTo(width, 0, width, cornerRadius);
+    ctx.lineTo(width, height - cornerRadius);
+    ctx.quadraticCurveTo(width, height, width - cornerRadius, height);
+    ctx.lineTo(cornerRadius, height);
+    ctx.quadraticCurveTo(0, height, 0, height - cornerRadius);
+    ctx.lineTo(0, cornerRadius);
+    ctx.quadraticCurveTo(0, 0, cornerRadius, 0);
+    ctx.closePath();
+  
+    ctx.fillStyle = fillColor;
+  
+    ctx.fill();
+  
+    return canvas.toBuffer();
+  }
+  
+  async function artifactCard(artid, baseImagePath, overlayImagePath, maskImagePath) {
+    try {
+      const baseImage = await Jimp.read(baseImagePath);
+      const overlayImage = await Jimp.read(overlayImagePath);
+      const maskImage = await Jimp.read(maskImagePath);
+  
+      overlayImage.resize(256, 256);
+  
+      overlayImage.mask(maskImage, 45, 45);
+     
+      baseImage.composite(overlayImage, -50, -50);
+  
+
+    const image = await baseImage.getBufferAsync(Jimp.AUTO);
+    fs.writeFileSync(`${artid}_arte.png`, image);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  function addPercentageIfPercentStat(statValue, appendPropId) {
+    const percentageIds = ["_PERCENT", "_CRITICAL", "_CRITICAL_HURT"]; // List of strings that indicate percentage stats
+  
+    const isPercentageStat = percentageIds.some(percentageId => appendPropId.includes(percentageId));
+  
+    if (isPercentageStat) {
+      return `${statValue}%`;
+    }
+  
+    return statValue;
+  }
   
   module.exports = {
     loadImageAsync,
@@ -306,5 +360,8 @@ const fs = require('fs');
     compositeImagesWithMask,
     truncateText,
     talentColor,
-    fetchSplashData
+    fetchSplashData,
+    createRoundedRectangle,
+    artifactCard,
+    addPercentageIfPercentStat
   }
