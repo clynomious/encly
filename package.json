@@ -8,7 +8,7 @@
     "node-fetch": "^2.6.9"
   },
   "name": "encly",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Create Enka Network Card with Canvas",
   "main": "index.js",
   "scripts": {

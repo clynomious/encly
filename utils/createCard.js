@@ -49,10 +49,10 @@ async function createCard(chardata, splashart) {
   ctx.drawImage(bgweapon, 42, 42);
   ctx.drawImage(weaponIcon, 55, 77, 191, 191);
   ctx.drawImage(star, 55, 256, 191, 23);
-  ctx.font = "36px 'HYWenHei 85W'" || "36px 'HYWenHei-85W'"
+  ctx.font = "36px 'HYWenHei 85W'";
   ctx.fillStyle = "white";
   ctx.fillText(truncateText(weapon.name, 25), 250, 108);
-  ctx.font = "32px 'HYWenHei 85W'" || "32px 'HYWenHei-85W'"
+  ctx.font = "32px 'HYWenHei 85W'";
   ctx.fillStyle = "white";
   ctx.fillText(`LVL ${weapon.level}/90`, 250, 162);
   ctx.fillStyle = "#ff8900";
@@ -93,7 +93,7 @@ async function createCard(chardata, splashart) {
   } else if (charStats.length === 7) {
     ynya = 83;
   }
-  ctx.font = "32px 'HYWenHei 85W'" || "32px 'HYWenHei-85W'"
+  ctx.font = "32px 'HYWenHei 85W'";
   ctx.fillStyle = "white";
   for (let i = 0; i < charStats.length; i++) {
     const icon = await Canvas.loadImage(`${__dirname}/../assets/icon/${charStats[i].icon}`);
@@ -158,7 +158,7 @@ async function createCard(chardata, splashart) {
   const bgname = await Canvas.loadImage(createRoundedRectangle(461, 57, 10, "rgba(0, 0, 0, 0.5)"))
   ctx.drawImage(rarity, 1235, 815);
   ctx.drawImage(bgname, 1072, 847);
-  ctx.font = "36px 'HYWenHei 85W'" || "36px 'HYWenHei-85W'"
+  ctx.font = "36px 'HYWenHei 85W'";
   ctx.fillStyle = "white";
   ctx.textAlign = "center";
   ctx.fillText(cname.name, 1302, 887);
@@ -199,7 +199,7 @@ async function createCard(chardata, splashart) {
     fs.unlinkSync(`${artdata.id}_arte.png`);
     ctx.drawImage(mainicon, 2032, y + 18, 40, 50);
     ctx.textAlign = "right";
-    ctx.font = "48px 'HYWenHei 85W'" || "48px 'HYWenHei-85W'"
+    ctx.font = "48px 'HYWenHei 85W'";
     ctx.fillStyle = "white";
     let statvalue = 0;
     const noPercent = ["FIGHT_PROP_ELEMENT_MASTERY", "FIGHT_PROP_HP", "FIGHT_PROP_ATTACK"]
@@ -211,7 +211,7 @@ async function createCard(chardata, splashart) {
     }
     ctx.fillText(statvalue, 2080, y + 118);
     ctx.drawImage(rarity, 1870, y + 117, 170, 52);
-    ctx.font = "24px 'HYWenHei 85W'" || "24px 'HYWenHei-85W'"
+    ctx.font = "24px 'HYWenHei 85W'";
     ctx.fillStyle = "white";
     ctx.fillText('+' + artdata.level, 2080, y + 153);
   
@@ -231,7 +231,7 @@ async function createCard(chardata, splashart) {
   
         ctx.drawImage(subicon, posX, posY, iconWidth, iconHeight);
         ctx.textAlign = "left";
-        ctx.font = "36px 'HYWenHei 85W'" || "36px 'HYWenHei-85W'"
+        ctx.font = "36px 'HYWenHei 85W'";
         ctx.fillStyle = "white";
         const statValue = artdata.subStats[i].statValue;
         const appendPropId = artdata.subStats[i].appendPropId;
