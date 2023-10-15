@@ -15,38 +15,38 @@ const fs = require('fs');
     let id 
     let value
     let icon
-      if (data.FIGHT_PROP_PHYSICAL_ADD_HURT !== 0) {
+      if (data.physicalAddHurt !== 0) {
         id = 'Physical DMG Bonus'
         icon = 'PHYSICAL_ADD_HURT.png'
-        value = (data.FIGHT_PROP_PHYSICAL_ADD_HURT * 100).toFixed(1) + '%'
-      } else if (data.FIGHT_PROP_FIRE_ADD_HURT !== 0) {
+        value = (data.physicalAddHurt * 100).toFixed(1) + '%'
+      } else if (data.fireAddHurt !== 0) {
         id = 'Pyro DMG Bonus'
         icon = 'PYRO.png'
-        value = (data.FIGHT_PROP_FIRE_ADD_HURT * 100).toFixed(1) + '%'
-      } else if (data.FIGHT_PROP_ELEC_ADD_HURT !== 0) {
+        value = (data.fireAddHurt * 100).toFixed(1) + '%'
+      } else if (data.elecAddHurt !== 0) {
         id = 'Electro DMG Bonus'
         icon = 'ELECTRO.png'
-        value = (data.FIGHT_PROP_ELEC_ADD_HURT * 100).toFixed(1) + '%'
-      } else if (data.FIGHT_PROP_WATER_ADD_HURT !== 0) {
+        value = (data.elecAddHurt * 100).toFixed(1) + '%'
+      } else if (data.waterAddHurt !== 0) {
         id = 'Hydro DMG Bonus',
         icon = 'HYDRO.png'
-        value = (data.FIGHT_PROP_WATER_ADD_HURT * 100).toFixed(1) + '%'
-      } else if (data.FIGHT_PROP_GRASS_ADD_HURT !== 0) {
+        value = (data.waterAddHurt * 100).toFixed(1) + '%'
+      } else if (data.grassAddHurt !== 0) {
         id = 'Dendro DMG Bonus',
         icon = 'DENDRO.png'
-        value = (data.FIGHT_PROP_GRASS_ADD_HURT * 100).toFixed(1) + '%'
-      } else if (data.FIGHT_PROP_WIND_ADD_HURT !== 0) {
+        value = (data.grassAddHurt * 100).toFixed(1) + '%'
+      } else if (data.windAddHurt !== 0) {
         id = 'Anemo DMG Bonus',
         icon = 'ANEMO.png'
-        value = (data.FIGHT_PROP_WIND_ADD_HURT * 100).toFixed(1) + '%'
-      } else if (data.FIGHT_PROP_ROCK_ADD_HURT !== 0) {
+        value = (data.windAddHurt * 100).toFixed(1) + '%'
+      } else if (data.rockAddHurt !== 0) {
         id = 'Geo DMG Bonus',
         icon = 'GEO.png'
-        value = (data.FIGHT_PROP_ROCK_ADD_HURT * 100).toFixed(1) + '%'
-      } else if (data.FIGHT_PROP_ICE_ADD_HURT !== 0) {
+        value = (data.rockAddHurt * 100).toFixed(1) + '%'
+      } else if (data.iceAddHurt !== 0) {
         id = 'Cryo DMG Bonus',
         icon = 'CRYO.png'
-        value = (data.FIGHT_PROP_ICE_ADD_HURT * 100).toFixed(1) + '%'
+        value = (data.iceAddHurt * 100).toFixed(1) + '%'
       } 
       return {
         id,
@@ -72,41 +72,41 @@ const fs = require('fs');
       {
         id: 'HP',
         icon: 'HP.png',
-        value: Number(data.FIGHT_PROP_CUR_HP.toFixed(0))
+        value: Number(data.maxHp.toFixed(0))
       },
       {
         id: 'ATK',
         icon: 'ATTACK.png',
-        value: Number(data.FIGHT_PROP_CUR_ATTACK.toFixed(0))
+        value: Number(data.curAttack.toFixed(0))
       },
       {
         id: 'DEF',
         icon: 'DEFENSE.png',
-        value: Number(data.FIGHT_PROP_CUR_DEFENSE.toFixed(0))
+        value: Number(data.curDefense.toFixed(0))
       },
       {
         id: 'Elemental Mastery',
         icon: 'ELEMENT_MASTERY.png',
-        value: Number(data.FIGHT_PROP_ELEMENT_MASTERY.toFixed(0))
+        value: Number(data.elementMastery.toFixed(0))
       },
       {
         id: 'Crit Rate',
         icon: 'CRITICAL.png',
-        value: (data.FIGHT_PROP_CRITICAL * 100).toFixed(1) + '%'
+        value: (data.critical * 100).toFixed(1) + '%'
       },
       {
         id: 'Crit DMG',
         icon: 'CRITICAL_HURT.png',
-        value: (data.FIGHT_PROP_CRITICAL_HURT * 100).toFixed(1) + '%'
+        value: (data.criticalHurt * 100).toFixed(1) + '%'
       }
     ];
   
-    if (data.FIGHT_PROP_HEAL_ADD !== 0) {
+    if (data.healAdd !== 0) {
       result.push(
         {
           id: 'Healing Bonus',
           icon: 'HEAL.png',
-          value: (data.FIGHT_PROP_HEAL_ADD * 100).toFixed(1) + '%'
+          value: (data.healAdd * 100).toFixed(1) + '%'
         }
       )
       }
@@ -125,7 +125,7 @@ const fs = require('fs');
       {
         id: 'Energy Recharge',
         icon: 'CHARGE_EFFICIENCY.png',
-        value: (data.FIGHT_PROP_CHARGE_EFFICIENCY * 100).toFixed(1) + '%'
+        value: (data.chargeEfficiency * 100).toFixed(1) + '%'
       }
     );
     return result;
@@ -283,7 +283,7 @@ const fs = require('fs');
   async function fetchSplashData() {
     try {
       const response = await fetch(
-        "https://raw.githubusercontent.com/Jelosus2/enkanetwork.js/master/src/utils/characters.json"
+        "https://raw.githubusercontent.com/Jelosus2/enkanetwork.js/master/src/utils/Genshin/characters.json"
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
