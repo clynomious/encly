@@ -167,14 +167,14 @@ async function createCard(chardata, splashart) {
 
   // Draw constellation
   const constdata = chardata;
-  for (let i = 0; i < constdata.constellation.length; i++) {
+  for (let i = 0; i < constdata.constellations.length; i++) {
     let constbg;
     let consticon;
-    if (constdata.constellation[i].unlocked === true) {
+    if (constdata.constellations[i].unlocked === true) {
       constbg = await Canvas.loadImage(
         `${__dirname}/../assets/const/open/OPEN_CONST_${constdata.element}.png`
       );
-      consticon = await Canvas.loadImage(constdata.constellation[i].icon);
+      consticon = await Canvas.loadImage(constdata.constellations[i].icon);
     } else {
       constbg = await Canvas.loadImage(
         `${__dirname}/../assets/const/closed/CLOSE_CONST_${constdata.element}.png`
@@ -240,7 +240,7 @@ async function createCard(chardata, splashart) {
     }
   }
   
-  const artdata = chardata.reluquary;
+  const artdata = chardata.reliquaries;
   const artbg = `${__dirname}/../assets/arte/bg-arte.png`;
   const maskarte = `${__dirname}/../assets/arte/mask.png`;
   
