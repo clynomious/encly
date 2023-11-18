@@ -12,7 +12,6 @@ async function loadImageAsync(path) {
 }
 
 function getDmgBonus(data) {
-  console.log(data);
   let id;
   let value;
   let icon;
@@ -119,12 +118,6 @@ async function genshinStats(stat) {
     value: (data.FIGHT_PROP_CHARGE_EFFICIENCY * 100).toFixed(1) + "%",
   });
   return result;
-}
-
-function drawText(ctx, text, fontSize, color, x, y) {
-  ctx.font = `${fontSize}px "HYWenHei 85W"`;
-  ctx.fillStyle = color;
-  ctx.fillText(text, x, y);
 }
 
 function applyText(text, fontSize, backgroundColor, textColor, radius) {
@@ -303,7 +296,7 @@ function talentColor(boost) {
 async function fetchSplashData() {
   try {
     const response = await fetch(
-      "https://raw.githubusercontent.com/Jelosus2/enkanetwork.js/master/src/utils/Genshin/characters.json"
+      "https://raw.githubusercontent.com/Jelosus2/enkanetwork.js/master/src/utils/characters.json"
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -395,5 +388,4 @@ module.exports = {
   createRoundedRectangle,
   artifactCard,
   addPercentageIfPercentStat,
-  drawText,
 };
