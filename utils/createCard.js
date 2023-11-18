@@ -10,7 +10,6 @@ const {
   createRoundedRectangle,
   artifactCard,
   addPercentageIfPercentStat,
-  drawText,
 } = require("./function");
 
 async function createCard(chardata, splashart) {
@@ -54,9 +53,14 @@ async function createCard(chardata, splashart) {
   ctx.drawImage(bgweapon, 42, 42);
   ctx.drawImage(weaponIcon, 55, 77, 191, 191);
   ctx.drawImage(star, 55, 256, 191, 23);
-  drawText(ctx, truncateText(weapon.name, 25), 36, "white", 250, 108);
-  drawText(ctx, `LVL ${weapon.level}/90`, 32, "white", 250, 162);
-  drawText(ctx, "R" + weapon.improvement, 32, "#ff8900", 465, 168);
+  ctx.font = "36px 'HYWenHei 85W'";
+  ctx.fillStyle = "white";
+  ctx.fillText(truncateText(weapon.name, 25), 250, 108);
+  ctx.font = "32px 'HYWenHei 85W'";
+  ctx.fillStyle = "white";
+  ctx.fillText(`LVL ${weapon.level}/90`, 250, 162);
+  ctx.fillStyle = "#ff8900";
+  ctx.fillText("R" + weapon.improvement, 465, 163);
   ctx.drawImage(mainImage, 250, 188);
   if (weapon.subStat) {
     let statvalue = 0;
@@ -95,15 +99,17 @@ async function createCard(chardata, splashart) {
   } else if (charStats.length === 7) {
     ynya = 83;
   }
+  ctx.font = "32px 'HYWenHei 85W'";
+  ctx.fillStyle = "white";
   for (let i = 0; i < charStats.length; i++) {
     const icon = await Canvas.loadImage(
       `${__dirname}/../assets/icon/${charStats[i].icon}`
     );
     ctx.drawImage(icon, 82, 400 + (i * ynya - 37), 40, 50);
     ctx.textAlign = "left";
-    drawText(ctx, charStats[i].id, 32, "white", 135, 400 + i * ynya);
+    ctx.fillText(charStats[i].id, 135, 400 + i * ynya);
     ctx.textAlign = "right";
-    drawText(ctx, charStats[i].value, 32, "white", 710, 400 + i * ynya);
+    ctx.fillText(charStats[i].value, 710, 400 + i * ynya);
   }
 
   // Draw talent
@@ -114,7 +120,7 @@ async function createCard(chardata, splashart) {
 
   for (let i = 0; i < 3; i++) {
     const talentIcon = await Canvas.loadImage(tdata.skills[i].icon);
-    const talentLevel = applyText(
+    const talentLevel = await applyText(
       tdata.skills[i].level,
       32,
       talentColor(tdata.skills[i].isBoosted),
@@ -139,7 +145,7 @@ async function createCard(chardata, splashart) {
   const rarity = await Canvas.loadImage(
     `${__dirname}/../assets/stars/${cname.rarity}_stars_frame.png`
   );
-  const bglevel = applyText(
+  const bglevel = await applyText(
     `Level ${cname.level}/90`,
     32,
     "rgba(0, 0, 0, 0.5)",
@@ -162,8 +168,10 @@ async function createCard(chardata, splashart) {
   );
   ctx.drawImage(rarity, 1235, 815);
   ctx.drawImage(bgname, 1072, 847);
+  ctx.font = "36px 'HYWenHei 85W'";
+  ctx.fillStyle = "white";
   ctx.textAlign = "center";
-  drawText(ctx, cname.name, 36, "white", 1302, 887);
+  ctx.fillText(cname.name, 1302, 887);
   ctx.drawImage(bglevelImage, 1135, 910);
   ctx.drawImage(bgfriendImage, 1365, 910);
 
@@ -210,6 +218,8 @@ async function createCard(chardata, splashart) {
     fs.unlinkSync(`${artdata.id}_arte.png`);
     ctx.drawImage(mainicon, 2032, y + 18, 40, 50);
     ctx.textAlign = "right";
+    ctx.font = "48px 'HYWenHei 85W'";
+    ctx.fillStyle = "white";
     let statvalue = 0;
     const noPercent = [
       "FIGHT_PROP_ELEMENT_MASTERY",
@@ -222,9 +232,11 @@ async function createCard(chardata, splashart) {
     } else {
       statvalue = artdata.mainStats.statValue + "%";
     }
-    drawText(ctx, statvalue, 48, "white", 2080, y + 118);
+    ctx.fillText(statvalue, 2080, y + 118);
     ctx.drawImage(rarity, 1870, y + 117, 170, 52);
-    drawText(ctx, "+" + artdata.level, 24, "white", 2080, y + 153);
+    ctx.font = "24px 'HYWenHei 85W'";
+    ctx.fillStyle = "white";
+    ctx.fillText("+" + artdata.level, 2080, y + 153);
 
     if (artdata.subStats) {
       for (let i = 0; i < artdata.subStats.length; i++) {
@@ -246,13 +258,12 @@ async function createCard(chardata, splashart) {
 
         ctx.drawImage(subicon, posX, posY, iconWidth, iconHeight);
         ctx.textAlign = "left";
+        ctx.font = "36px 'HYWenHei 85W'";
+        ctx.fillStyle = "white";
         const statValue = artdata.subStats[i].statValue;
         const appendPropId = artdata.subStats[i].appendPropId;
-        drawText(
-          ctx,
+        ctx.fillText(
           "+" + addPercentageIfPercentStat(statValue, appendPropId),
-          36,
-          "white",
           posX + 50,
           posY + 40
         );
@@ -260,7 +271,7 @@ async function createCard(chardata, splashart) {
     }
   }
 
-  const artdata = chardata.reluquary;
+  const artdata = chardata.reliquaries;
   const artbg = `${__dirname}/../assets/arte/bg-arte.png`;
   const maskarte = `${__dirname}/../assets/arte/mask.png`;
 
