@@ -136,7 +136,7 @@ class Card {
         buffer: card
       };
     } catch (error) {
-      console.error('Error while fetching character data:', error.message);
+      console.error('Error while fetching character data:', error);
       return [];
     }
   }
