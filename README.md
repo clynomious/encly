@@ -1,67 +1,81 @@
-
 # Encly
 
-Create Enka Network Card with Canvas
-
+Create Enka Network Card with Canvas. This project is inspired by [EnkaCard](https://github.com/DEViantUA/EnkaCard/tree/EnkaCard2) because I'm not proficient in Python, so I created its JavaScript version.
 
 ## Installation
 
 ```bash
 npm install encly
 ```
-    
+
 ## Usage/Examples
 
 ```javascript
-const Encly = require('encly')
+const Encly = require("encly");
 
 const data = new Encly.Profile();
 
 // get profile data
-data.getProfile(uid).then((data) => {
+data
+  .getProfile(uid)
+  .then((data) => {
     console.log(data);
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.log(err);
-});
+  });
 
 const card = new Encly.Card();
 
 // get link
-card.getCard(id).then((data) => {
+card
+  .getCard(id)
+  .then((data) => {
     console.log(data);
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.log(err);
-});
+  });
 
 // for buffer result
-card.getCardBuffer(id).then((data) => {
+card
+  .getCardBuffer(id)
+  .then((data) => {
     console.log(data);
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.log(err);
-});
+  });
 
 //get one card link
 const card = new Encly.Card()
-    .setCharacter(2) //set 1-8 in order of the character you have
-    .setSplash('https://telegra.ph/file/f4f88905a8c0479818b9d.jpg') //if you need custom splash art
+  .setCharacter(2) //set 1-8 in order of the character you have
+  .setSplash("https://telegra.ph/file/f4f88905a8c0479818b9d.jpg"); //if you need custom splash art
 
-card.getOneCard(857067560).then((data) => {
+card
+  .getOneCard(857067560)
+  .then((data) => {
     console.log(data);
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.log(err);
-});
+  });
 
 //for buffer result
-card.getOneCardBuffer(857067560).then((data) => {
+card
+  .getOneCardBuffer(857067560)
+  .then((data) => {
     console.log(data);
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.log(err);
-});
+  });
 ```
 
-
 ## Result/Example
+
 - getCard()
+
 ```json
 [
   {
@@ -100,6 +114,7 @@ card.getOneCardBuffer(857067560).then((data) => {
 ```
 
 - getCardBuffer()
+
 ```json
 [
   {
@@ -138,6 +153,7 @@ card.getOneCardBuffer(857067560).then((data) => {
 ```
 
 - getOneCard()
+
 ```json
 {
   "name": "Nahida",
@@ -146,6 +162,7 @@ card.getOneCardBuffer(857067560).then((data) => {
 ```
 
 - getOneCardBuffer()
+
 ```json
 {
   "name": "Nahida",
@@ -154,6 +171,7 @@ card.getOneCardBuffer(857067560).then((data) => {
 ```
 
 - getProfile()
+
 ```json
 {
   "nickname": "Cly",
@@ -228,3 +246,7 @@ card.getOneCardBuffer(857067560).then((data) => {
   }
 }
 ```
+
+## Credit:
+
+- Assets are taken from the repository [EnkaCard](https://github.com/DEViantUA/EnkaCard/tree/EnkaCard2).
